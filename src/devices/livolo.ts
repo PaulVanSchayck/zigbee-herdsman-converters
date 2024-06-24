@@ -265,7 +265,7 @@ const definitions: Definition[] = [
             if (['start', 'deviceAnnounce'].includes(type)) {
                 await poll(device);
                 if (!globalStore.hasValue(device, 'interval')) {
-                    const interval = setInterval(async () => await poll(device), 10*1000);
+                    const interval = setInterval(async () => await poll(device), 300*1000);
                     globalStore.putValue(device, 'interval', interval);
                 }
             }
@@ -276,7 +276,7 @@ const definitions: Definition[] = [
                     if (dp === 0x01) {
                         const options = {manufacturerCode: 0x1ad2, disableDefaultResponse: true, disableResponse: true,
                             reservedBits: 3, direction: 1, writeUndiv: true};
-                        const payload = {0x2002: {value: [0, 0, 0, 0, 0, 0, 0], type: 0x0e}};
+                        const payload = {0x2002: {value: [data.data[3], 0, 0, 0, 0, 0, 0], type: data.data[2]}};
                         await endpoint.readResponse('genPowerCfg', 0xe9, payload, options);
                     }
                 }
@@ -302,7 +302,7 @@ const definitions: Definition[] = [
             if (['start', 'deviceAnnounce'].includes(type)) {
                 await poll(device);
                 if (!globalStore.hasValue(device, 'interval')) {
-                    const interval = setInterval(async () => await poll(device), 60*1000);
+                    const interval = setInterval(async () => await poll(device), 300*1000);
                     globalStore.putValue(device, 'interval', interval);
                 }
             }
