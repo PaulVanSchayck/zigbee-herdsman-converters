@@ -2384,6 +2384,7 @@ const converters1 = {
         cluster: 'genPowerCfg',
         type: ['raw'],
         convert: (model, msg, publish, options, meta) => {
+            logger.info(`Humidity: ${JSON.stringify(msg.data)}`, NS);
             const dp = msg.data[10];
             switch (dp) {
             case 14:
@@ -2393,6 +2394,24 @@ const converters1 = {
             case 12:
                 return {
                     humidity: Number(msg.data[13]),
+                };
+            }
+        },
+    } satisfies Fz.Converter,
+    livolo_illuminance_state: {
+        cluster: 'genPowerCfg',
+        type: ['raw'],
+        convert: (model, msg, publish, options, meta) => {
+            logger.info(`Illuminance: ${JSON.stringify(msg.data)}`, NS);
+            const dp = msg.data[12];
+            switch (dp) {
+            case 13:
+                return {
+                    illuminance_lux: Number(msg.data[13]),
+                };
+            case 14:
+                return {
+                    noise: Number(msg.data[13]),
                 };
             }
         },
@@ -2477,8 +2496,16 @@ const converters1 = {
             [122,209,             245,94,225,34,0,75,18,0,  7,1,7,1,0,11]  occupancy: false
 
             hygrometer
-            [122,209,             191,22,3,24,0,75,18,0, 14,1,8,21,14,11]  temperature: 21 degrees Celcius
+            [122,209,             191,22,3,24,0,75,18,0, 14,1,8,21,14,11]  temperature: 21 degrees Celsius
             [122,209,             191,22,3,24,0,75,18,0, 12,1,9,73,12,11]  humidity: 73%
+
+            illuminance
+            [124,210,21,216,128,  221,0,115,33,0,75,18,0,  19,12,0]          after interview
+            [122,209,             221,0,115,33,0,75,18,0,  12,1,14,3,12,11]  noise: 3 (detected)
+            [122,209,             221,0,115,33,0,75,18,0,  12,1,14,4,12,11]  noise: 4 (more detected)
+            [122,209,             221,0,115,33,0,75,18,0,  12,1,14,2,12,11]  noise: 2 (no noise)
+            [122,209,             221,0,115,33,0,75,18,0,  12,1,13,20,12,11] lux: 20
+            [122,209,             221,0,115,33,0,75,18,0,  2,0,12,199,1,11]  ??
             */
             const malformedHeader = Buffer.from([0x7c, 0xd2, 0x15, 0xd8, 0x00]);
             const infoHeader = Buffer.from([0x7c, 0xd2, 0x15, 0xd8, 0x80]);
@@ -2531,6 +2558,11 @@ const converters1 = {
                 if (msg.data.includes(Buffer.from([19, 15, 0]), 13)) {
                     logger.debug('Detected Livolo Digital Hygrometer', NS);
                     meta.device.modelID = 'TI0001-hygrometer';
+                    meta.device.save();
+                }
+                if (msg.data.includes(Buffer.from([19, 12, 0]), 13)) {
+                    logger.debug('Detected Livolo Digital Illuminance and Sound Sensor', NS);
+                    meta.device.modelID = 'TI0001-illuminance';
                     meta.device.save();
                 }
             }
