@@ -2384,7 +2384,6 @@ const converters1 = {
         cluster: 'genPowerCfg',
         type: ['raw'],
         convert: (model, msg, publish, options, meta) => {
-            logger.info(`Humidity: ${JSON.stringify(msg.data)}`, NS);
             const dp = msg.data[10];
             switch (dp) {
             case 14:
@@ -2402,7 +2401,6 @@ const converters1 = {
         cluster: 'genPowerCfg',
         type: ['raw'],
         convert: (model, msg, publish, options, meta) => {
-            logger.info(`Illuminance: ${JSON.stringify(msg.data)}`, NS);
             const dp = msg.data[12];
             switch (dp) {
             case 13:
@@ -2501,9 +2499,10 @@ const converters1 = {
 
             illuminance
             [124,210,21,216,128,  221,0,115,33,0,75,18,0,  19,12,0]          after interview
-            [122,209,             221,0,115,33,0,75,18,0,  12,1,14,3,12,11]  noise: 3 (detected)
-            [122,209,             221,0,115,33,0,75,18,0,  12,1,14,4,12,11]  noise: 4 (more detected)
+            [122,209,             221,0,115,33,0,75,18,0,  12,1,14,4,12,11]  noise: 4 (most noise)
+            [122,209,             221,0,115,33,0,75,18,0,  12,1,14,3,12,11]  noise: 3 (more noise)
             [122,209,             221,0,115,33,0,75,18,0,  12,1,14,2,12,11]  noise: 2 (no noise)
+            [122,209,             221,0,115,33,0,75,18,0,  12,1,14,2,12,11]  noise: 1 (?)
             [122,209,             221,0,115,33,0,75,18,0,  12,1,13,20,12,11] lux: 20
             [122,209,             221,0,115,33,0,75,18,0,  2,0,12,199,1,11]  ??
             */
