@@ -326,7 +326,7 @@ const definitions: Definition[] = [
         description: 'Zigbee Digital Illuminance and Sound Sensor',
         vendor: 'Livolo',
         exposes: [
-            e.noise(), e.illuminance_lux(),
+            e.noise_detected(), e.illuminance().withUnit('%').withValueMin(0).withValueMax(100),
         ],
         fromZigbee: [fz.livolo_illuminance_state],
         toZigbee: [],

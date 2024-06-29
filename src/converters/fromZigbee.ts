@@ -2405,11 +2405,11 @@ const converters1 = {
             switch (dp) {
             case 13:
                 return {
-                    illuminance_lux: Number(msg.data[13]),
+                    illuminance: Number(msg.data[13]),
                 };
             case 14:
                 return {
-                    noise: Number(msg.data[13]),
+                    noise_detected: msg.data[13] > 2,
                 };
             }
         },
