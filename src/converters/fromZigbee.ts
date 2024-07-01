@@ -2402,6 +2402,7 @@ const converters1 = {
         type: ['raw'],
         convert: (model, msg, publish, options, meta) => {
             const dp = msg.data[12];
+            const noiseLookup: KeyValueAny = {1: 'silent', 2: 'normal', 3: 'lively', 4: 'noisy'};
             switch (dp) {
             case 13:
                 return {
@@ -2410,6 +2411,7 @@ const converters1 = {
             case 14:
                 return {
                     noise_detected: msg.data[13] > 2,
+                    noise_state: noiseLookup[msg.data[13]],
                 };
             }
         },
