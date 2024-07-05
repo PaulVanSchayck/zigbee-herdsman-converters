@@ -2411,7 +2411,7 @@ const converters1 = {
             case 14:
                 return {
                     noise_detected: msg.data[13] > 2,
-                    noise_state: noiseLookup[msg.data[13]],
+                    noise_level: noiseLookup[msg.data[13]],
                 };
             }
         },

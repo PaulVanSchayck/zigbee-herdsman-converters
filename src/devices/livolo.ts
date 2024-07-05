@@ -277,7 +277,7 @@ const definitions: Definition[] = [
                     if (dp === 0x01) {
                         const options = {manufacturerCode: 0x1ad2, disableDefaultResponse: true, disableResponse: true,
                             reservedBits: 3, direction: 1, writeUndiv: true};
-                        const payload = {0x2002: {value: [data.data[3], 0, 0, 0, 0, 0, 0], type: data.data[2]}};
+                        const payload = {0x2002: {value: [0, 0, 0, 0, 0, 0, 0], type: 0x0e}};
                         await endpoint.readResponse('genPowerCfg', 0xe9, payload, options);
                     }
                 }
@@ -328,7 +328,7 @@ const definitions: Definition[] = [
         vendor: 'Livolo',
         exposes: [
             e.noise_detected(), e.illuminance().withUnit('%').withValueMin(0).withValueMax(100),
-            new Enum('noise_state', access.STATE, ['silent', 'normal', 'lively', 'noisy']).withDescription('Detected noise level'),
+            new Enum('noise_level', access.STATE, ['silent', 'normal', 'lively', 'noisy']).withDescription('Detected noise level'),
         ],
         fromZigbee: [fz.livolo_illuminance_state],
         toZigbee: [],
@@ -341,7 +341,7 @@ const definitions: Definition[] = [
             if (['start', 'deviceAnnounce'].includes(type)) {
                 await poll(device);
                 if (!globalStore.hasValue(device, 'interval')) {
-                    const interval = setInterval(async () => await poll(device), 300*1000);
+                    const interval = setInterval(async () => await poll(device), 5*1000);
                     globalStore.putValue(device, 'interval', interval);
                 }
             }
