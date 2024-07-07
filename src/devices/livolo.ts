@@ -277,7 +277,7 @@ const definitions: Definition[] = [
                     if (dp === 0x01) {
                         const options = {manufacturerCode: 0x1ad2, disableDefaultResponse: true, disableResponse: true,
                             reservedBits: 3, direction: 1, writeUndiv: true};
-                        const payload = {0x2002: {value: [0, 0, 0, 0, 0, 0, 0], type: 0x0e}};
+                        const payload = {0x2002: {value: [data.data[3], 0, 0, 0, 0, 0, 0], type: data.data[2]}};
                         await endpoint.readResponse('genPowerCfg', 0xe9, payload, options);
                     }
                 }
