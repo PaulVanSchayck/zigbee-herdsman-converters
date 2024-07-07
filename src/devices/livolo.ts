@@ -266,7 +266,7 @@ const definitions: Definition[] = [
             if (['start', 'deviceAnnounce'].includes(type)) {
                 await poll(device);
                 if (!globalStore.hasValue(device, 'interval')) {
-                    const interval = setInterval(async () => await poll(device), 300*1000);
+                    const interval = setInterval(async () => await poll(device), 10*1000);
                     globalStore.putValue(device, 'interval', interval);
                 }
             }
